@@ -1,115 +1,38 @@
 const mongoose = require('mongoose');
 
-// Definisikan schema untuk mv
-const MvSchema = new mongoose.Schema({
-  insuredName: String,
-  nik: Number,
-  tsi: Number,
-  alamat: String,
-  prov: String,
-  kota: String,
-  kec: String,
-  kel: String,
-  postal: String,
-  email: String,
-  kontak: String,
-  merek: String,
-  model: String,
-  noPol: String,
-  tahun: Number,
-  rangka: String,
-  mesin: String,
-  warna: String,
-  penggunaan: String,
-  polis: String,
-  perluasan: {
-    rscc: Boolean,
-    ts: Boolean,
-    tshfl: Boolean,
-    eqvet: Boolean,
-    tjh: Boolean,
-    nilaiTJH: Number,
-    pa: Boolean,
-    nilaiPa: Number
-  }
-});
+const applicationSchema = new mongoose.Schema({
+  addedDate:  mongoose.Schema.Types.Mixed ,
+  type:  mongoose.Schema.Types.Mixed ,
+  insuredName:  mongoose.Schema.Types.Mixed ,
+  COB:  mongoose.Schema.Types.Mixed ,
+  NIK:  mongoose.Schema.Types.Mixed ,
+  address:  mongoose.Schema.Types.Mixed ,
+  phone:  mongoose.Schema.Types.Mixed ,
+  email:  mongoose.Schema.Types.Mixed ,
+  polis:  mongoose.Schema.Types.Mixed ,
+  merek:  mongoose.Schema.Types.Mixed ,
+  model:  mongoose.Schema.Types.Mixed ,
+  year:  mongoose.Schema.Types.Mixed ,
+  rangka:  mongoose.Schema.Types.Mixed ,
+  mesin:  mongoose.Schema.Types.Mixed ,
+  plat:  mongoose.Schema.Types.Mixed ,
+  okupasi:  mongoose.Schema.Types.Mixed ,
+  perluasan:  mongoose.Schema.Types.Mixed ,
+  tsi:  mongoose.Schema.Types.Mixed ,
+  periode:  mongoose.Schema.Types.Mixed ,
+  kelas:  mongoose.Schema.Types.Mixed ,
+  alamatObj:  mongoose.Schema.Types.Mixed ,
+  newApp:  mongoose.Schema.Types.Mixed ,
+  komisi:  mongoose.Schema.Types.Mixed ,
+  diskon:  mongoose.Schema.Types.Mixed ,
+  sign:  mongoose.Schema.Types.Mixed ,
+  status:  mongoose.Schema.Types.Mixed ,
+  rate:  mongoose.Schema.Types.Mixed ,
+  ktp:  mongoose.Schema.Types.Mixed ,
+  agentName:  mongoose.Schema.Types.Mixed ,
+  potentialPremi:  mongoose.Schema.Types.Mixed ,
+}, {collection:'application'});
 
-// Definisikan schema untuk alamatObj
-const AlamatObjSchema = new mongoose.Schema({
-  alamat: String,
-  prov: String,
-  kota: String,
-  kec: String,
-  kel: String,
-  postal: String
-});
-
-// Definisikan schema untuk hartaBenda
-const HartaBendaSchema = new mongoose.Schema({
-  insuredName: String,
-  nik: Number,
-  alamat: String,
-  prov: String,
-  kota: String,
-  kec: String,
-  kel: String,
-  postal: String,
-  email: String,
-  kontak: String,
-  alamatObj: AlamatObjSchema,
-  periode: String,
-  okupasi: String,
-  TSI: Number,
-  kelas: Number,
-  polis: String,
-  perluasan: {
-    tsfwd: Boolean,
-    rsmdcc: Boolean,
-    eqvet: Boolean,
-    others: Boolean
-  }
-});
-
-// Definisikan schema untuk endorse
-const EndorseSchema = new mongoose.Schema({
-  nPolis: Number,
-  insuredName: String,
-  periode: String,
-  eData: Date,
-  okupasi: String,
-  jEndorse: String,
-  sebelum: String,
-  sesudah: String,
-  keterangan: String
-});
-
-// Definisikan schema untuk klaim
-const KlaimSchema = new mongoose.Schema({
-  nPolis: Number,
-  insuredName: String,
-  periode: String,
-  dol: Date,
-  kronologi: String
-});
-
-// Definisikan schema untuk data
-const DataSchema = new mongoose.Schema({
-  _id: String,
-  new: {
-    mv: [MvSchema],
-    hartaBenda: [HartaBendaSchema]
-  },
-  endorse: {
-    mv: [EndorseSchema],
-    hartaBenda: [HartaBendaSchema]
-  },
-  klaim: {
-    mv: [KlaimSchema],
-    hartaBenda: [HartaBendaSchema]
-  }
-},{collection :'application'});
-
-// Buat model Application berdasarkan schema DataSchema
-const Application = mongoose.model('Application', DataSchema);
+const Application = mongoose.model('Application', applicationSchema);
 
 module.exports = Application;
