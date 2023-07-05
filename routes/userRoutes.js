@@ -8,6 +8,9 @@ const Commision = require('../models/commision');
 const Okupasi = require('../models/okupasi');
 const mongoose = require('mongoose');
 const Klaim = require('../models/klaim');
+const Plat = require('../models/plat');
+const Eq = require('../models/eqzone');
+const RateMV = require('../models/rateMV');
 
 router.get('/users', async (req, res, next) => {
   try {
@@ -75,6 +78,91 @@ router.get('/:user/listklaim', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/plat', async (req, res, next) => {
+  try {
+    const { plat } = req.query;
+    const data = await Plat.find({ plat }, {_id:0});
+    res.json(data[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/eq', async (req, res, next) => {
+  try {
+    const { prov, daerah, getprov } = req.query;
+    const query = {};
+
+    if (getprov === 'true') {
+      const distinctProvinces = await Eq.distinct('prov');
+      return res.json( distinctProvinces );
+    }
+
+    if (prov) {
+      query.prov = prov;
+    }
+
+    if (daerah) {
+      query.daerah = daerah;
+    }
+
+    const data = await Eq.find(query, { _id: 0 });
+
+    if (data.length === 0) {
+      return res.status(404).json({ message: 'Data tidak ditemukan' });
+    }
+
+    res.json(data);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/ratemv', async(req,res,next)=>{
+  try{
+    const {min, max, type, wil, cover} = req.query;
+    let query = {};
+
+    if(cover === "rscc"){
+      query = {cover};
+      const perluasan = await RateMV.find(query, {_id:0});
+      return res.json(perluasan)
+    }
+
+    if(cover && wil && type){
+      query = {
+        $and: [
+          {cover},
+          {wil},
+          {type}
+          ]
+      }
+      const perluasan = await RateMV.find(query, {_id:0})
+      return res.json(perluasan)
+    }
+
+    if(min && max && type && wil){
+      query = {
+        $and: [
+          { min: { $lte: min } },
+          { max: { $gte: max } },
+          {wil},
+          {type}
+        ]
+      }
+    }
+    const data = await RateMV.find(query, {_id:0});
+    res.json(data)
+    if(data.length === 0){
+      return res.status(404).json({ message: 'Data tidak ditemukan' });
+    }
+  }catch(e){
+    next(e)
+  }
+})
+
+
 
 router.post('/newklaim', async(req,res,next)=>{
   try{
