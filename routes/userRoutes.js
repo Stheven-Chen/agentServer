@@ -124,7 +124,7 @@ router.post('/ratemv', async(req,res,next)=>{
     const {min, max, type, wil, cover} = req.query;
     let query = {};
 
-    if(cover === "rscc"){
+    if(cover === "rscc" || cover === "ts"){
       query = {cover};
       const perluasan = await RateMV.find(query, {_id:0});
       return res.json(perluasan)
