@@ -142,6 +142,18 @@ router.post('/ratemv', async(req,res,next)=>{
       return res.json(perluasan)
     }
 
+    if(cover==='tjh' && min && max){
+      query={
+        $and:[
+          {cover},
+          { min: { $lte: min } },
+          { max: { $gte: max } }
+        ]
+      }
+      const perluasan = await RateMV.find(query,{_id:0});
+      return res.json(perluasan)
+    }
+
     if(min && max && type && wil){
       query = {
         $and: [
