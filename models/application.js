@@ -18,6 +18,7 @@ const applicationSchema = new mongoose.Schema({
   plat:  mongoose.Schema.Types.Mixed ,
   okupasi:  mongoose.Schema.Types.Mixed ,
   perluasan:  mongoose.Schema.Types.Mixed ,
+  sr:  mongoose.Schema.Types.Mixed ,
   tsi:  mongoose.Schema.Types.Mixed ,
   periode:  mongoose.Schema.Types.Mixed ,
   kelas:  mongoose.Schema.Types.Mixed ,
@@ -31,6 +32,8 @@ const applicationSchema = new mongoose.Schema({
   ktp:  mongoose.Schema.Types.Mixed ,
   agentName:  mongoose.Schema.Types.Mixed ,
   potentialPremi:  mongoose.Schema.Types.Mixed ,
+  bangunan:  mongoose.Schema.Types.Mixed ,
+  content:  mongoose.Schema.Types.Mixed ,
 }, {collection:'application'});
 
 const Application = mongoose.model('Application', applicationSchema);

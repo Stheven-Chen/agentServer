@@ -239,7 +239,10 @@ router.post('/new', async (req, res, next) => {
       rate,
       ktp,
       agentName,
-      potentialPremi
+      potentialPremi,
+      bangunan,
+      content,
+      sr
     } = req.body;
 
     const insert = await Application.create({
@@ -272,7 +275,10 @@ router.post('/new', async (req, res, next) => {
       rate,
       ktp,
       agentName,
-      potentialPremi
+      potentialPremi,
+      bangunan,
+      content,
+      sr
     });
 
     if (!insert) {
