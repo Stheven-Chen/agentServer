@@ -11,8 +11,6 @@ const Klaim = require('../models/klaim');
 const Plat = require('../models/plat');
 const Eq = require('../models/eqzone');
 const RateMV = require('../models/rateMV');
-const Province = require('../models/province');
-const Postal = require('../models/postal');
 
 router.get('/users', async (req, res, next) => {
   try {
