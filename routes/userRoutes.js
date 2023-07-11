@@ -11,6 +11,8 @@ const Klaim = require('../models/klaim');
 const Plat = require('../models/plat');
 const Eq = require('../models/eqzone');
 const RateMV = require('../models/rateMV');
+const Province = require('../models/province');
+const Postal = require('../models/postal');
 
 router.get('/users', async (req, res, next) => {
   try {
@@ -91,21 +93,31 @@ router.post('/plat', async (req, res, next) => {
 
 router.post('/eq', async (req, res, next) => {
   try {
-    const { prov, daerah, getprov } = req.query;
+    const { prov, city_id, dis_id, subdis_id } = req.query;
     const query = {};
 
-    if (getprov === 'true') {
+    if (prov === 'true') {
       const distinctProvinces = await Eq.distinct('prov');
-      return res.json( distinctProvinces );
+      return res.json(distinctProvinces);
     }
 
     if (prov) {
       query.prov = prov;
     }
 
-    if (daerah) {
-      query.daerah = daerah;
+    if (city_id) {
+      query.city_id = city_id;
+      query.dis_name = { $exists: true };
     }
+    if (dis_id) {
+      query.dis_id = dis_id;
+      query.subdis_name = { $exists: true };
+    }
+    if (subdis_id) {
+      query.subdis_id = subdis_id;
+      query.postal_code = { $exists: true };
+    }
+    
 
     const data = await Eq.find(query, { _id: 0 });
 
@@ -118,6 +130,9 @@ router.post('/eq', async (req, res, next) => {
     next(err);
   }
 });
+
+
+
 
 router.post('/ratemv', async(req,res,next)=>{
   try{
