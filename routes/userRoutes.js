@@ -11,6 +11,7 @@ const Klaim = require('../models/klaim');
 const Plat = require('../models/plat');
 const Eq = require('../models/eqzone');
 const RateMV = require('../models/rateMV');
+const RateBenda = require('../models/rateBenda');
 
 router.get('/users', async (req, res, next) => {
   try {
@@ -128,6 +129,34 @@ router.post('/eq', async (req, res, next) => {
     next(err);
   }
 });
+
+router.post('/ratebenda', async(req,res,next)=>{
+  try{
+    const {type, zone, rumah} = req.query
+
+    const query = {}
+
+    if(type === 'eq'){
+      if(rumah === "true"){
+        query.zone = zone;
+        query.type = type;
+        query.rumah = { $exists: true };
+      }else{
+        query.zone = zone;
+        query.type = type;
+        query.rumah = {$exists : false};
+      }
+    }
+
+    const data = await RateBenda.find(query, {_id:0});
+    if(data.length === 0 ){
+      return res.status(404).json({message:"Data tidak ditemukan"})
+    }
+    res.json(data)
+  }catch(err){
+    next(err)
+  }
+})
 
 
 
