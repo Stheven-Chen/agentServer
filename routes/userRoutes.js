@@ -92,8 +92,15 @@ router.post('/plat', async (req, res, next) => {
 
 router.post('/eq', async (req, res, next) => {
   try {
-    const { prov, city_id, dis_id, subdis_id } = req.query;
+    const { prov, city_id, dis_id, subdis_id, zona } = req.query;
     const query = {};
+
+    if(zona){
+      query.city_id = zona
+      query.zona = {$exists : true}
+      const EqZone = await Eq.find(query, {_id:0})
+      return res.json(EqZone);
+    }
 
     if (prov === 'true') {
       const distinctProvinces = await Eq.distinct('prov');
